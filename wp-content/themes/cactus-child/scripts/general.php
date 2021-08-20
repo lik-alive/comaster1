@@ -80,7 +80,7 @@ function g_wex($idexp)
 
 function g_cfn($filename)
 {
-	return str_replace(array('/', '/', ':', '*', '?', '"', '<', '>', '|'), '', $filename);
+	return str_replace(array('/', '\\', ':', '*', '?', '"', '<', '>', '|'), '', $filename);
 }
 
 function g_cpf($frompath, $topath)
