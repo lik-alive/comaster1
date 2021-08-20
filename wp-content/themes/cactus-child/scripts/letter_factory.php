@@ -361,13 +361,11 @@ function letter_toexpert_firstreview($article, $expert, $review, $attachments)
 
 	$revfile_ext = mb_substr($templfilename, mb_strrpos($templfilename, '.'));
 
-	//TODO
 	$author_s = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $article->Authors);
 
 	if (mb_strpos($author_s, ' ') === false) $shortauthor = $author_s;
 	else $shortauthor = mb_substr($author_s, 0, mb_strpos($author_s, ' '));
 
-	//TODO
 	$title_s = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $article->Title);
 
 	if (mb_strpos($title_s, ' ') === false) $shorttitle = g_cfl($title_s);
@@ -430,13 +428,11 @@ function letter_toexpert_secondreview($article, $expert, $attachments)
 
 	$revfile_ext = mb_substr($templfilename, mb_strrpos($templfilename, '.'));
 
-	//TODO
 	$author_s = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $article->Authors);
 
 	if (mb_strpos($author_s, ' ') === false) $shortauthor = $author_s;
 	else $shortauthor = mb_substr($author_s, 0, mb_strpos($author_s, ' '));
 
-	//TODO
 	$title_s = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $article->Title);
 
 	if (mb_strpos($title_s, ' ') === false) $shorttitle = g_cfl($title_s);
