@@ -49,102 +49,102 @@ function letter_toauthor_newarticle($article)
 
 function letter_toauthor_review($article, $attachments, $review, $techdetails)
 {
-	// $toName = $article->CorName;
-	// $toMail = $article->CorMail;
+	$toName = $article->CorName;
+	$toMail = $article->CorMail;
 
-	// if ($article->Language == 'R') {
-	// 	$revPositiv =
-	// 		"Рады сообщить, что один из рецензентов дал положительную оценку Вашей статье\n" .
-	// 		"и одобрил её публикацию в журнале.\n";
-	// } else {
-	// 	$revPositiv =
-	// 		"We are glad to inform you that one of the reviewers has given a positive assessment\n" .
-	// 		"of your article and approved its publication in the journal.\n";
-	// }
+	if ($article->Language == 'R') {
+		$revPositiv =
+			"Рады сообщить, что один из рецензентов дал положительную оценку Вашей статье\n" .
+			"и одобрил её публикацию в журнале.\n";
+	} else {
+		$revPositiv =
+			"We are glad to inform you that one of the reviewers has given a positive assessment\n" .
+			"of your article and approved its publication in the journal.\n";
+	}
 
-	// $limdate = date('d-m-Y', strtotime('+30 days'));
+	$limdate = date('d-m-Y', strtotime('+30 days'));
 
-	// if ($article->Language == 'R') {
-	// 	$revProblems =
-	// 		"Прошу ознакомиться с прилагаемой рецензией, устранить отмеченные недостатки и/или\n" .
-	// 		"дать обоснованные возражения на замечания рецензента до " . $limdate . ".\n" .
-	// 		"\n" .
-	// 		"Пожалуйста,   внимательно   ознакомьтесь   с   политикой   журнала  по\n" .
-	// 		"рецензированию  на нашем  сайте - там Вы найдёте актуальную информацию\n" .
-	// 		"по форме ответного письма:\n" .
-	// 		"http://www.computeroptics.smr.ru/RedDoc/Rec.htm\n" .
-	// 		"\n" .
-	// 		"Актуальный образец/бланк ответа на замечания рецензента в приложении.\n";
-	// } else {
-	// 	$revProblems =
-	// 		"Please find the reviewer's report enclosed, revise the manuscript and/or\n" .
-	// 		"give reasoned objections to the reviewer's comments before " . $limdate . ".\n" .
-	// 		"\n" .
-	// 		"Once you have revised the manuscript, please email it in MSWORD format to me,\n" .
-	// 		"with a cover letter in PDF format outlining point-by-point the revisions you\n" .
-	// 		"have made in regards to the reviewer's comments and guidelines.\n" .
-	// 		"\n" .
-	// 		"Please find attached the response form.\n";
-	// }
+	if ($article->Language == 'R') {
+		$revProblems =
+			"Прошу ознакомиться с прилагаемой рецензией, устранить отмеченные недостатки и/или\n" .
+			"дать обоснованные возражения на замечания рецензента до " . $limdate . ".\n" .
+			"\n" .
+			"Пожалуйста,   внимательно   ознакомьтесь   с   политикой   журнала  по\n" .
+			"рецензированию  на нашем  сайте - там Вы найдёте актуальную информацию\n" .
+			"по форме ответного письма:\n" .
+			"http://www.computeroptics.smr.ru/RedDoc/Rec.htm\n" .
+			"\n" .
+			"Актуальный образец/бланк ответа на замечания рецензента в приложении.\n";
+	} else {
+		$revProblems =
+			"Please find the reviewer's report enclosed, revise the manuscript and/or\n" .
+			"give reasoned objections to the reviewer's comments before " . $limdate . ".\n" .
+			"\n" .
+			"Once you have revised the manuscript, please email it in MSWORD format to me,\n" .
+			"with a cover letter in PDF format outlining point-by-point the revisions you\n" .
+			"have made in regards to the reviewer's comments and guidelines.\n" .
+			"\n" .
+			"Please find attached the response form.\n";
+	}
 
-	// if ($article->Language == 'R') {
-	// 	$techProblems =
-	// 		"Для публикации в нашем журнале статья должна соответствовать не только научным\n" .
-	// 		"требованиям, но и \"Правилам подготовки рукописей\", обусловленным\n" .
-	// 		"регламентами наукометрических баз и возможностями нашей полиграфии.\n" .
-	// 		"\n" .
-	// 		"Ознакомиться с актуальной редакцией \"Правил\" можно на нашем сайте:\n" .
-	// 		"http://www.computeroptics.smr.ru/guidelines.htm\n" .
-	// 		"\n" .
-	// 		"Прошу устранить следующие замечания по оформлению:\n" .
-	// 		$techdetails . "\n";
-	// } else {
-	// 	$techProblems =
-	// 		"For publication in our journal, the manuscript should also correspond to\n" .
-	// 		"guidelines. The current version of Authors Guidelines is available at:\n" .
-	// 		"http://www.computeroptics.smr.ru/ENG/guidelines.htm\n" .
-	// 		"\n" .
-	// 		"Please revise the following technical comments:\n" .
-	// 		$techdetails . "\n";
-	// }
+	if ($article->Language == 'R') {
+		$techProblems =
+			"Для публикации в нашем журнале статья должна соответствовать не только научным\n" .
+			"требованиям, но и \"Правилам подготовки рукописей\", обусловленным\n" .
+			"регламентами наукометрических баз и возможностями нашей полиграфии.\n" .
+			"\n" .
+			"Ознакомиться с актуальной редакцией \"Правил\" можно на нашем сайте:\n" .
+			"http://www.computeroptics.smr.ru/guidelines.htm\n" .
+			"\n" .
+			"Прошу устранить следующие замечания по оформлению:\n" .
+			$techdetails . "\n";
+	} else {
+		$techProblems =
+			"For publication in our journal, the manuscript should also correspond to\n" .
+			"guidelines. The current version of Authors Guidelines is available at:\n" .
+			"http://www.computeroptics.smr.ru/ENG/guidelines.htm\n" .
+			"\n" .
+			"Please revise the following technical comments:\n" .
+			$techdetails . "\n";
+	}
 
-	// $messagebody = $revPositiv;
-	// if ($review->ID_Verdict != 1) {
-	// 	$messagebody = $revProblems;
+	$messagebody = $revPositiv;
+	if ($review->ID_Verdict != 1) {
+		$messagebody = $revProblems;
 
-	// 	global $TEMPLATESPATH, $TEMPLATEREPLYRUSFILENAME, $TEMPLATEREPLYENGFILENAME, $TEMPPATH;
-	// 	if ($article->Language == 'R') {
-	// 		$templfilename = $TEMPLATEREPLYRUSFILENAME;
-	// 	} else {
-	// 		$templfilename = $TEMPLATEREPLYENGFILENAME;
-	// 	}
+		global $TEMPLATESPATH, $TEMPLATEREPLYRUSFILENAME, $TEMPLATEREPLYENGFILENAME, $TEMPPATH;
+		if ($article->Language == 'R') {
+			$templfilename = $TEMPLATEREPLYRUSFILENAME;
+		} else {
+			$templfilename = $TEMPLATEREPLYENGFILENAME;
+		}
 
-	// 	$replyfile_ext = mb_substr($templfilename, mb_strrpos($templfilename, '.'));
+		$replyfile_ext = mb_substr($templfilename, mb_strrpos($templfilename, '.'));
 
-	// 	if (mb_strpos($article->Authors, ' ') === false) $shortauthor = $article->Authors;
-	// 	else $shortauthor = mb_substr($article->Authors, 0, mb_strpos($article->Authors, ' '));
-	// 	$shortauthor = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $shortauthor);
+		if (mb_strpos($article->Authors, ' ') === false) $shortauthor = $article->Authors;
+		else $shortauthor = mb_substr($article->Authors, 0, mb_strpos($article->Authors, ' '));
+		$shortauthor = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $shortauthor);
 
-	// 	if (mb_strpos($article->Title, ' ') === false) $shorttitle = g_cfl($article->Title);
-	// 	else $shorttitle = g_cfl(mb_substr($article->Title, 0, mb_strpos($article->Title, ' ')));
-	// 	$shorttitle = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $shorttitle);
+		if (mb_strpos($article->Title, ' ') === false) $shorttitle = g_cfl($article->Title);
+		else $shorttitle = g_cfl(mb_substr($article->Title, 0, mb_strpos($article->Title, ' ')));
+		$shorttitle = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $shorttitle);
 
-	// 	$replyfile_name = 'Reply ' . $shortauthor . ' ' . $shorttitle . ' ' . $review->RevNo . $replyfile_ext;
+		$replyfile_name = 'Reply ' . $shortauthor . ' ' . $shorttitle . ' ' . $review->RevNo . $replyfile_ext;
 
-	// 	g_cpf($TEMPLATESPATH . $templfilename, $TEMPPATH . $replyfile_name);
+		g_cpf($TEMPLATESPATH . $templfilename, $TEMPPATH . $replyfile_name);
 
-	// 	$template = array(
-	// 		'name' => array($replyfile_name),
-	// 		'tmp_name' => array($TEMPPATH . $replyfile_name)
-	// 	);
+		$template = array(
+			'name' => array($replyfile_name),
+			'tmp_name' => array($TEMPPATH . $replyfile_name)
+		);
 
-	// 	if (sizeof($attachments) == 0) $attachments = $template;
-	// 	else $attachments = array_merge_recursive($attachments, $template);
-	// }
+		if (sizeof($attachments) == 0) $attachments = $template;
+		else $attachments = array_merge_recursive($attachments, $template);
+	}
 
-	// if ($techdetails != "") $messagebody = $messagebody . "\n\n" . $techProblems;
+	if ($techdetails != "") $messagebody = $messagebody . "\n\n" . $techProblems;
 
-	// letter_create_and_send($toName, $toMail, $article->Authors . " " . g_cfl($article->Title), $messagebody, 'авт', $attachments, false, true, $article->Language);
+	letter_create_and_send($toName, $toMail, $article->Authors . " " . g_cfl($article->Title), $messagebody, 'авт', $attachments, false, true, $article->Language);
 }
 
 ///TRANSLATE
@@ -330,144 +330,138 @@ function letter_toeditor_newarticle($article, $editor, $attachments)
 
 function letter_toexpert_firstreview($article, $expert, $review, $attachments)
 {
-	printf('<p class = "bg-danger">Functionality is locked in this demo-version</p>');
-	exit();
+	$toName = $expert->Name;
+	$toMail = $expert->Mail;
 
-	// $toName = $expert->Name;
-	// $toMail = $expert->Mail;
+	$limdate1 =  date("d-m-Y", strtotime("+14 days"));
+	$limdate2 =  date("d-m-Y", strtotime("+3 days"));
 
-	// $limdate1 =  date("d-m-Y", strtotime("+14 days"));
-	// $limdate2 =  date("d-m-Y", strtotime("+3 days"));
+	//Продление сроков в декабре
+	if (date('m') == '12') {
+		$limdate1 =  date('d-m-Y', strtotime("+30 days"));
+	}
 
-	// //Продление сроков в декабре
-	// if (date('m') == '12') {
-	// 	$limdate1 =  date('d-m-Y', strtotime("+30 days"));
-	// }
+	$messagebody =
+		"Редакцией журнала \"Компьютерная оптика\" получена прилагаемая статья.\n" .
+		"\n" .
+		"Если ее содержание пересекается с областью Ваших научных интересов (или Ваших\n" .
+		"коллег) в степени, достаточной для написания рецензии, то прошу прислать\n" .
+		"рецензию прилагаемой статьи на ko@smr.ru до " . $limdate1 . ".\n" .
+		"\n" .
+		"Или дать аргументированный отказ от рецензирования до " . $limdate2 . ".\n" .
+		"\n" .
+		"Актуальный образец/бланк рецензии в приложении.\n";
 
-	// $messagebody =
-	// 	"Редакцией журнала \"Компьютерная оптика\" получена прилагаемая статья.\n" .
-	// 	"\n" .
-	// 	"Если ее содержание пересекается с областью Ваших научных интересов (или Ваших\n" .
-	// 	"коллег) в степени, достаточной для написания рецензии, то прошу прислать\n" .
-	// 	"рецензию прилагаемой статьи на ko@smr.ru до " . $limdate1 . ".\n" .
-	// 	"\n" .
-	// 	"Или дать аргументированный отказ от рецензирования до " . $limdate2 . ".\n" .
-	// 	"\n" .
-	// 	"Актуальный образец/бланк рецензии в приложении.\n";
+	global $TEMPLATESPATH, $TEMPLATEREVIEWRUSFILENAME, $TEMPLATEREVIEWENGFILENAME, $REVIEWSPATH;
+	if ($article->Language == 'R') {
+		$templfilename = $TEMPLATEREVIEWRUSFILENAME;
+	} else {
+		$templfilename = $TEMPLATEREVIEWENGFILENAME;
+	}
 
-	// global $TEMPLATESPATH, $TEMPLATEREVIEWRUSFILENAME, $TEMPLATEREVIEWENGFILENAME, $REVIEWSPATH;
-	// if ($article->Language == 'R') {
-	// 	$templfilename = $TEMPLATEREVIEWRUSFILENAME;
-	// } else {
-	// 	$templfilename = $TEMPLATEREVIEWENGFILENAME;
-	// }
+	$revfile_ext = mb_substr($templfilename, mb_strrpos($templfilename, '.'));
 
-	// $revfile_ext = mb_substr($templfilename, mb_strrpos($templfilename, '.'));
+	//TODO
+	$author_s = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $article->Authors);
 
-	// //TODO
-	// $author_s = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $article->Authors);
+	if (mb_strpos($author_s, ' ') === false) $shortauthor = $author_s;
+	else $shortauthor = mb_substr($author_s, 0, mb_strpos($author_s, ' '));
 
-	// if (mb_strpos($author_s, ' ') === false) $shortauthor = $author_s;
-	// else $shortauthor = mb_substr($author_s, 0, mb_strpos($author_s, ' '));
+	//TODO
+	$title_s = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $article->Title);
 
-	// //TODO
-	// $title_s = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $article->Title);
+	if (mb_strpos($title_s, ' ') === false) $shorttitle = g_cfl($title_s);
+	else $shorttitle = g_cfl(mb_substr($title_s, 0, mb_strpos($title_s, ' ')));
 
-	// if (mb_strpos($title_s, ' ') === false) $shorttitle = g_cfl($title_s);
-	// else $shorttitle = g_cfl(mb_substr($title_s, 0, mb_strpos($title_s, ' ')));
+	$revfile_name = $shortauthor . ' ' . $shorttitle . ' ' . $review->RevNo . $revfile_ext;
 
-	// $revfile_name = $shortauthor . ' ' . $shorttitle . ' ' . $review->RevNo . $revfile_ext;
+	$fields = array(
+		'Text1'    => $article->Authors . ' ' . g_cfl($article->Title)
+	);
 
-	// $fields = array(
-	// 	'Text1'    => $article->Authors . ' ' . g_cfl($article->Title)
-	// );
+	$template = array();
 
-	// $template = array();
+	try {
+		$pdf = new FPDM\FPDM($TEMPLATESPATH . $templfilename);
+		$pdf->Load($fields, true);
+		$pdf->Merge();
+		$pdf->Output($REVIEWSPATH . $revfile_name, 'F');
 
-	// try {
-	// 	$pdf = new FPDM\FPDM($TEMPLATESPATH . $templfilename);
-	// 	$pdf->Load($fields, true);
-	// 	$pdf->Merge();
-	// 	$pdf->Output($REVIEWSPATH . $revfile_name, 'F');
+		$template = array(
+			'name' => array($revfile_name),
+			'tmp_name' => array($REVIEWSPATH . $revfile_name)
+		);
+	} catch (Exception $e) {
+		printf('<p class = "bg-danger">%s</p>', 'Ошибка генерации pdf-рецензии: ' . $e->getMessage());
+	}
 
-	// 	$template = array(
-	// 		'name' => array($revfile_name),
-	// 		'tmp_name' => array($REVIEWSPATH . $revfile_name)
-	// 	);
-	// } catch (Exception $e) {
-	// 	printf('<p class = "bg-danger">%s</p>', 'Ошибка генерации pdf-рецензии: ' . $e->getMessage());
-	// }
+	if (sizeof($attachments) == 0) $attachments = $template;
+	else $attachments = array_merge_recursive($attachments, $template);
 
-	// if (sizeof($attachments) == 0) $attachments = $template;
-	// else $attachments = array_merge_recursive($attachments, $template);
-
-	// letter_create_and_send($toName, $toMail, $article->Authors . ' ' . g_cfl($article->Title), $messagebody, 'рец', $attachments);
+	letter_create_and_send($toName, $toMail, $article->Authors . ' ' . g_cfl($article->Title), $messagebody, 'рец', $attachments);
 }
 
 function letter_toexpert_secondreview($article, $expert, $attachments)
 {
-	printf('<p class = "bg-danger">Functionality is locked in this demo-version</p>');
-	exit();
+	$toName = $expert->Name;
+	$toMail = $expert->Mail;
 
-	// $toName = $expert->Name;
-	// $toMail = $expert->Mail;
+	$limdate1 =  date("d-m-Y", strtotime("+14 days"));
 
-	// $limdate1 =  date("d-m-Y", strtotime("+14 days"));
+	//Продление сроков в декабре
+	if (date('m') == '12') {
+		$limdate1 =  date('d-m-Y', strtotime("+30 days"));
+	}
 
-	// //Продление сроков в декабре
-	// if (date('m') == '12') {
-	// 	$limdate1 =  date('d-m-Y', strtotime("+30 days"));
-	// }
+	$messagebody =
+		"Прошу ознакомиться с исправленной версией статьи.\n" .
+		"Все ли Ваши замечания учтены, можно ли передавать статью в печать?\n" .
+		"\n" .
+		"Ваше заключение прошу прислать на ko@smr.ru до " . $limdate1 . ".\n" .
+		"\n" .
+		"При необходимости, актуальный образец/бланк рецензии в приложении.\n";
 
-	// $messagebody =
-	// 	"Прошу ознакомиться с исправленной версией статьи.\n" .
-	// 	"Все ли Ваши замечания учтены, можно ли передавать статью в печать?\n" .
-	// 	"\n" .
-	// 	"Ваше заключение прошу прислать на ko@smr.ru до " . $limdate1 . ".\n" .
-	// 	"\n" .
-	// 	"При необходимости, актуальный образец/бланк рецензии в приложении.\n";
+	global $TEMPLATESPATH, $TEMPLATEREVIEWRUSFILENAME, $TEMPLATEREVIEWENGFILENAME, $REVIEWSPATH;
+	if ($article->Language == 'R') {
+		$templfilename = $TEMPLATEREVIEWRUSFILENAME;
+	} else {
+		$templfilename = $TEMPLATEREVIEWENGFILENAME;
+	}
 
-	// global $TEMPLATESPATH, $TEMPLATEREVIEWRUSFILENAME, $TEMPLATEREVIEWENGFILENAME, $REVIEWSPATH;
-	// if ($article->Language == 'R') {
-	// 	$templfilename = $TEMPLATEREVIEWRUSFILENAME;
-	// } else {
-	// 	$templfilename = $TEMPLATEREVIEWENGFILENAME;
-	// }
+	$revfile_ext = mb_substr($templfilename, mb_strrpos($templfilename, '.'));
 
-	// $revfile_ext = mb_substr($templfilename, mb_strrpos($templfilename, '.'));
+	//TODO
+	$author_s = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $article->Authors);
 
-	// //TODO
-	// $author_s = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $article->Authors);
+	if (mb_strpos($author_s, ' ') === false) $shortauthor = $author_s;
+	else $shortauthor = mb_substr($author_s, 0, mb_strpos($author_s, ' '));
 
-	// if (mb_strpos($author_s, ' ') === false) $shortauthor = $author_s;
-	// else $shortauthor = mb_substr($author_s, 0, mb_strpos($author_s, ' '));
+	//TODO
+	$title_s = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $article->Title);
 
-	// //TODO
-	// $title_s = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $article->Title);
+	if (mb_strpos($title_s, ' ') === false) $shorttitle = g_cfl($title_s);
+	else $shorttitle = g_cfl(mb_substr($title_s, 0, mb_strpos($title_s, ' ')));
 
-	// if (mb_strpos($title_s, ' ') === false) $shorttitle = g_cfl($title_s);
-	// else $shorttitle = g_cfl(mb_substr($title_s, 0, mb_strpos($title_s, ' ')));
+	$revfile_name = $shortauthor . ' ' . $shorttitle . ' ' . $review->RevNo . $revfile_ext;
 
-	// $revfile_name = $shortauthor . ' ' . $shorttitle . ' ' . $review->RevNo . $revfile_ext;
+	$fields = array(
+		'Text1'    => $article->Authors . ' ' . g_cfl($article->Title)
+	);
 
-	// $fields = array(
-	// 	'Text1'    => $article->Authors . ' ' . g_cfl($article->Title)
-	// );
+	$pdf = new FPDM\FPDM($TEMPLATESPATH . $templfilename);
+	$pdf->Load($fields, true);
+	$pdf->Merge();
+	$pdf->Output($REVIEWSPATH . $revfile_name, 'F');
 
-	// $pdf = new FPDM\FPDM($TEMPLATESPATH . $templfilename);
-	// $pdf->Load($fields, true);
-	// $pdf->Merge();
-	// $pdf->Output($REVIEWSPATH . $revfile_name, 'F');
+	$template = array(
+		'name' => array($revfile_name),
+		'tmp_name' => array($REVIEWSPATH . $revfile_name)
+	);
 
-	// $template = array(
-	// 	'name' => array($revfile_name),
-	// 	'tmp_name' => array($REVIEWSPATH . $revfile_name)
-	// );
+	if (sizeof($attachments) == 0) $attachments = $template;
+	else $attachments = array_merge_recursive($attachments, $template);
 
-	// if (sizeof($attachments) == 0) $attachments = $template;
-	// else $attachments = array_merge_recursive($attachments, $template);
-
-	// letter_create_and_send($toName, $toMail, $article->Authors . " " . g_cfl($article->Title), $messagebody, 'рец', $attachments, false, true);
+	letter_create_and_send($toName, $toMail, $article->Authors . " " . g_cfl($article->Title), $messagebody, 'рец', $attachments, false, true);
 }
 
 function letter_toexpert_lightreminder($article, $expert, $review)

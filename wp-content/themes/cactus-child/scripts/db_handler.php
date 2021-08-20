@@ -92,8 +92,8 @@ function db_get_articles_ext($ID_Article = null)
 
 function db_add_article($article)
 {
-	// global $wpdb;		
-	// return $wpdb->insert('articles', $article);
+	global $wpdb;
+	return $wpdb->insert('articles', $article);
 }
 
 function db_update_article($article)
@@ -147,8 +147,8 @@ function db_get_issues_ext($ID_Issue = null)
 
 function db_add_issue($issue)
 {
-	// global $wpdb;		
-	// return $wpdb->insert('issues', $issue);
+	global $wpdb;
+	return $wpdb->insert('issues', $issue);
 }
 
 function db_update_issue($issue)
@@ -207,8 +207,8 @@ function db_get_experts_ext($ID_Expert = null)
 
 function db_add_expert($expert)
 {
-	// global $wpdb;		
-	// return $wpdb->insert('experts', $expert);
+	global $wpdb;
+	return $wpdb->insert('experts', $expert);
 }
 
 function db_update_expert($expert)
@@ -261,8 +261,8 @@ function db_get_verdicts_ext($ID_Verdict = null)
 
 function db_add_verdict($verdict)
 {
-	// global $wpdb;		
-	// return $wpdb->insert('verdicts', $verdict);
+	global $wpdb;
+	return $wpdb->insert('verdicts', $verdict);
 }
 
 function db_update_verdict($verdict)
@@ -349,8 +349,8 @@ function db_get_reviews_ext($ID_Review = null)
 
 function db_add_review($review)
 {
-	// global $wpdb;
-	// return $wpdb->insert('reviews', $review);
+	global $wpdb;
+	return $wpdb->insert('reviews', $review);
 }
 
 function db_update_review($review)
@@ -418,8 +418,8 @@ function db_get_sections_ext($ID_Section = null)
 
 function db_add_section($section)
 {
-	// global $wpdb;		
-	// return $wpdb->insert('sections', $section);
+	global $wpdb;
+	return $wpdb->insert('sections', $section);
 }
 
 function db_update_section($section)

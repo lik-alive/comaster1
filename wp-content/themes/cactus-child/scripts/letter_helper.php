@@ -40,17 +40,15 @@ function letterfooter($lang)
 
 function createDayMask($prefix)
 {
-	throw new Exception('Functionality is locked in this demo-version');
+	global $LETTERSFOLDER;
+	$folder = $LETTERSFOLDER . date('Y-m-d') . '/';
 
-	// global $LETTERSFOLDER;
-	// $folder = $LETTERSFOLDER . date('Y-m-d') . '/';
-
-	// if (!file_exists($folder)) {
-	// 	if (!mkdir($folder)) {
-	// 		throw new Exception('Невозможно создать папку для хранения писем');
-	// 	}
-	// }
-	// return $folder . $prefix . " " . date('H-i-s') . ' ' . round(microtime(true) * 1000) . " ";
+	if (!file_exists($folder)) {
+		if (!mkdir($folder)) {
+			throw new Exception('Невозможно создать папку для хранения писем');
+		}
+	}
+	return $folder . $prefix . " " . date('H-i-s') . ' ' . round(microtime(true) * 1000) . " ";
 }
 
 function saveMIMELetter($message)
@@ -120,64 +118,58 @@ function saveTextLetter($message)
 
 function importMessageToTheBAT($message)
 {
-	throw new Exception('Functionality is locked in this demo-version');
-
-	// global $BATEXEC;
-	// $command = "\"" . $BATEXEC . "\" /IMPORTF=\"//ko@smr.ru/Outbox/toapprove\";FILE=\"{$message->mimeFile}\";UNREAD;";
-	// shell_exec($command);
+	global $BATEXEC;
+	$command = "\"" . $BATEXEC . "\" /IMPORTF=\"//ko@smr.ru/Outbox/toapprove\";FILE=\"{$message->mimeFile}\";UNREAD;";
+	shell_exec($command);
 }
 
 function addMessageToTheBAT($message)
 {
-	throw new Exception('Functionality is locked in this demo-version');
+	global $BATEXEC;
+	global $LETTERTEMPLATE;
+	$command = "\"" . $BATEXEC . "\" /MAILF=\"//ko@smr.ru/Outbox\";";
 
-	// global $BATEXEC;
-	// global $LETTERTEMPLATE;
-	// $command = "\"" . $BATEXEC . "\" /MAILF=\"//ko@smr.ru/Outbox\";";
+	for ($i = 0; $i < sizeof($message->toName); $i++)
+		$command .= "TO=\"{$message->toName[$i]} <{$message->toMail[$i]}>\";";
 
-	// for ($i = 0; $i < sizeof($message->toName); $i++)
-	// 	$command .= "TO=\"{$message->toName[$i]} <{$message->toMail[$i]}>\";";
+	$command .=
+		"S=\"{$message->subject}\";" .
+		"C=\"{$message->textFile}\";" .
+		"T=\"{$message->templateFile}\";";
 
-	// $command .=
-	// 	"S=\"{$message->subject}\";" .
-	// 	"C=\"{$message->textFile}\";" .
-	// 	"T=\"{$message->templateFile}\";";
+	for ($i = 0; $i < sizeof($message->attachments['tmp_name']); $i++)
+		$command .= "A=\"{$message->attachments['tmp_name'][$i]}\";";
 
-	// for ($i = 0; $i < sizeof($message->attachments['tmp_name']); $i++)
-	// 	$command .= "A=\"{$message->attachments['tmp_name'][$i]}\";";
-
-	// shell_exec($command);
+	shell_exec($command);
 }
 
 function letter_create_and_send($toName, $toMail, $subject, $messagebody, $prefix, $attachments, $copyToTech = false, $isImmedeate = false, $lang = 'R')
 {
-	throw new Exception('Functionality is locked in this demo-version');
+	global $LETTERTEMPLATE, $LETTERTEMPLATETECH;
+	$filename = createDayMask($prefix) . $toName;
+	$MIMEfilename = $filename . ".eml";
+	$TXTfilename = $filename . ".txt";
 
-	// global $LETTERTEMPLATE, $LETTERTEMPLATETECH;
-	// $filename = createDayMask($prefix) . $toName;
-	// $MIMEfilename = $filename . ".eml";
-	// $TXTfilename = $filename . ".txt";
+	$message = (object)[
+		'toName' => array($toName),
+		'toMail' => array($toMail),
+		'subject' => securestr($subject),
+		'text' => letterheader($toName, $lang) . $messagebody . letterfooter($lang),
+		'attachments' => $attachments,
+		'textFile' => $TXTfilename,
+		'mimeFile' => $MIMEfilename,
+		'templateFile' => $LETTERTEMPLATE
+	];
 
-	// $message = (object)[
-	// 	'toName' => array($toName),
-	// 	'toMail' => array($toMail),
-	// 	'subject' => securestr($subject),
-	// 	'text' => letterheader($toName, $lang) . $messagebody . letterfooter($lang),
-	// 	'attachments' => $attachments,
-	// 	'textFile' => $TXTfilename,
-	// 	'mimeFile' => $MIMEfilename,
-	// 	'templateFile' => $LETTERTEMPLATE
-	// ];
+	if ($copyToTech) {
+		$message->templateFile = $LETTERTEMPLATETECH;
+	}
 
-	// if ($copyToTech) {
-	// 	$message->templateFile = $LETTERTEMPLATETECH;
-	// }
+	saveMIMELetter($message);
+	saveTextLetter($message);
 
-	// saveMIMELetter($message);
-	// saveTextLetter($message);
-
-	// if ($isImmedeate)
-	// 	addMessageToTheBAT($message);
-	// else
-	// 	importMessageToTheBAT($message);
+	if ($isImmedeate)
+		addMessageToTheBAT($message);
+	else
+		importMessageToTheBAT($message);
 }

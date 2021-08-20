@@ -305,43 +305,40 @@ function reviews_remind_expert()
 add_action('wp_ajax_reviews_update_file', 'reviews_update_file');
 function reviews_update_file()
 {
-	printf('<p class = "bg-danger">Functionality is locked in this demo-version</p>');
+	if ($_SERVER['REQUEST_METHOD'] == "POST") {
+		$ID_Review = g_si($_POST['ID_Review']);
+
+		$review = db_get_review($ID_Review);
+		if ($review == "") {
+			printf('<p class = "bg-danger">%s</p>', "Рецензия #{$ID_Review} не найдена");
+			exit();
+		}
+
+		$article = db_get_article($review->ID_Article);
+
+		$files = $_FILES['files'];
+
+		$revfile_tmp_name = $files['tmp_name'][0];
+		$revfile_name = $files['name'][0];
+		$revfile_ext = mb_substr($revfile_name, mb_strrpos($revfile_name, '.'));
+
+		if (mb_strpos($article->Authors, ' ') === false) $shortauthor = $article->Authors;
+		else $shortauthor = mb_substr($article->Authors, 0, mb_strpos($article->Authors, ' '));
+
+		if (mb_strpos($article->Title, ' ') === false) $shorttitle = g_cfl($article->Title);
+		else $shorttitle = g_cfl(mb_substr($article->Title, 0, mb_strpos($article->Title, ' ')));
+
+		$revfile_name = $shortauthor . ' ' . $shorttitle . ' ' . $review->RevNo . $revfile_ext;
+
+		$attachments = array(
+			'name' => array(g_cfn($revfile_name)),
+			'tmp_name' => array($revfile_tmp_name)
+		);
+
+		g_sf($attachments, $review->ID_Article . '/reviews/' . $ID_Review, 'review.zip');
+		printf('<p class = "bg-success">%s</p>', 'Файлы обновлены');
+	}
 	exit();
-
-	// if ($_SERVER['REQUEST_METHOD'] == "POST") {
-	// 	$ID_Review = g_si($_POST['ID_Review']);
-
-	// 	$review = db_get_review($ID_Review);
-	// 	if ($review == "") {
-	// 		printf('<p class = "bg-danger">%s</p>', "Рецензия #{$ID_Review} не найдена");
-	// 		exit();
-	// 	}
-
-	// 	$article = db_get_article($review->ID_Article);
-
-	// 	$files = $_FILES['files'];
-
-	// 	$revfile_tmp_name = $files['tmp_name'][0];
-	// 	$revfile_name = $files['name'][0];
-	// 	$revfile_ext = mb_substr($revfile_name, mb_strrpos($revfile_name, '.'));
-
-	// 	if (mb_strpos($article->Authors, ' ') === false) $shortauthor = $article->Authors;
-	// 	else $shortauthor = mb_substr($article->Authors, 0, mb_strpos($article->Authors, ' '));
-
-	// 	if (mb_strpos($article->Title, ' ') === false) $shorttitle = g_cfl($article->Title);
-	// 	else $shorttitle = g_cfl(mb_substr($article->Title, 0, mb_strpos($article->Title, ' ')));
-
-	// 	$revfile_name = $shortauthor . ' ' . $shorttitle . ' ' . $review->RevNo . $revfile_ext;
-
-	// 	$attachments = array(
-	// 		'name' => array(g_cfn($revfile_name)),
-	// 		'tmp_name' => array($revfile_tmp_name)
-	// 	);
-
-	// 	g_sf($attachments, $review->ID_Article . '/reviews/' . $ID_Review, 'review.zip');
-	// 	printf('<p class = "bg-success">%s</p>', 'Файлы обновлены');
-	// }
-	// exit();
 }
 
 add_action('wp_ajax_reviews_get_fileinfo', 'reviews_get_fileinfo');

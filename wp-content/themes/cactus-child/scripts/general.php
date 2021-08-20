@@ -85,45 +85,45 @@ function g_cfn($filename)
 
 function g_cpf($frompath, $topath)
 {
-	// $fr = fopen($frompath, "r");
-	// $contents = fread($fr, filesize($frompath));
-	// fclose($fr);
+	$fr = fopen($frompath, "r");
+	$contents = fread($fr, filesize($frompath));
+	fclose($fr);
 
-	// $fw = fopen($topath, "w");
-	// fwrite($fw, $contents);
-	// fclose($fw);
+	$fw = fopen($topath, "w");
+	fwrite($fw, $contents);
+	fclose($fw);
 }
 
 function g_sf($attachments, $subfolder, $zipname)
 {
-	// $partCount = sizeof($attachments['name']);
-	// if ($partCount === 0) return;
+	$partCount = sizeof($attachments['name']);
+	if ($partCount === 0) return;
 
-	// global $FILESFOLDER;
-	// $folder = $FILESFOLDER . $subfolder . '/';
+	global $FILESFOLDER;
+	$folder = $FILESFOLDER . $subfolder . '/';
 
-	// if (!file_exists($folder)) {
-	// 	mkdir($folder, 0777, true);
-	// }
+	if (!file_exists($folder)) {
+		mkdir($folder, 0777, true);
+	}
 
-	// //Clear folder
-	// $files = glob($folder . '*');
-	// foreach ($files as $file) {
-	// 	if (is_file($file)) unlink($file);
-	// }
+	//Clear folder
+	$files = glob($folder . '*');
+	foreach ($files as $file) {
+		if (is_file($file)) unlink($file);
+	}
 
-	// if ($partCount === 1) {
-	// 	g_cpf($attachments['tmp_name'][0], $folder . $attachments['name'][0]);
-	// } else {
-	// 	$zip = new ZipArchive();
-	// 	if ($zip->open($folder . $zipname, ZipArchive::CREATE) !== true) return;
+	if ($partCount === 1) {
+		g_cpf($attachments['tmp_name'][0], $folder . $attachments['name'][0]);
+	} else {
+		$zip = new ZipArchive();
+		if ($zip->open($folder . $zipname, ZipArchive::CREATE) !== true) return;
 
-	// 	for ($partNo = 0; $partNo < $partCount; $partNo++) {
-	// 		$zip->addFile($attachments['tmp_name'][$partNo], $attachments['name'][$partNo]);
-	// 	}
+		for ($partNo = 0; $partNo < $partCount; $partNo++) {
+			$zip->addFile($attachments['tmp_name'][$partNo], $attachments['name'][$partNo]);
+		}
 
-	// 	$zip->close();
-	// }
+		$zip->close();
+	}
 }
 
 function g_lf($subfolder)
@@ -182,8 +182,6 @@ function g_gtm()
 
 function g_cua(...$users)
 {
-	$users = [...$users, 'observer'];
-
 	if (g_gtm()) {
 		return g_tcua(...$users);
 	} else {

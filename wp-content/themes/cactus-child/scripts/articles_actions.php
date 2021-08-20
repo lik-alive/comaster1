@@ -8,51 +8,48 @@ include_once __DIR__ . '/reviews_actions.php';
 add_action('wp_ajax_articles_create', 'articles_create');
 function articles_create()
 {
-	printf('<p class = "bg-danger">Functionality is locked in this demo-version</p>');
+	$article = array(
+		'ID_Issue' => '3',
+		'ID_Section' => g_si($_POST["id_section"]),
+		'Authors' => g_si($_POST["authors"]),
+		'Title' => mb_strtoupper(g_si($_POST["title"])),
+		'Affiliation' => g_si($_POST["affiliation"]),
+		'PageCount' => g_si($_POST["pageCount"]),
+		'RecvDate' => g_si($_POST["recvDate"]),
+		'CorName' => g_si($_POST["corName"]),
+		'CorMail' => g_si($_POST["corMail"]),
+		'Language' => g_si($_POST["language"]),
+		'Comments' =>  g_sin($_POST["comments"])
+	);
+
+	$res = db_add_article($article);
+
+	if (!$res) {
+		printf('<p class = "bg-danger">%s</p>', 'Статья не была добавлена: ' . db_get_last_error());
+		exit();
+	}
+
+	g_sf($_FILES['files'], db_get_insert_id() . '/article', 'article.zip');
+
+	$article = db_get_article(db_get_insert_id());
+
+
+	if (g_si($_POST["isToAuthor"])) {
+		try {
+			letter_toauthor_newarticle($article);
+			printf('<p class = "bg-success">%s</p>', 'Письмо автору отправлено');
+		} catch (Exception $e) {
+			printf('<p class = "bg-danger">%s</p>', 'Ошибка отправления письма автору: ' . $e->getMessage());
+		}
+	}
+
+	if (g_si($_POST["isToEditor"])) {
+		request_experts(db_get_insert_id());
+	}
+
+	printf(db_get_insert_id());
+
 	exit();
-
-	// $article = array(
-	// 	'ID_Issue' => '3',
-	// 	'ID_Section' => g_si($_POST["id_section"]),
-	// 	'Authors' => g_si($_POST["authors"]),
-	// 	'Title' => mb_strtoupper(g_si($_POST["title"])),
-	// 	'Affiliation' => g_si($_POST["affiliation"]),
-	// 	'PageCount' => g_si($_POST["pageCount"]),
-	// 	'RecvDate' => g_si($_POST["recvDate"]),
-	// 	'CorName' => g_si($_POST["corName"]),
-	// 	'CorMail' => g_si($_POST["corMail"]),
-	// 	'Language' => g_si($_POST["language"]),
-	// 	'Comments' =>  g_sin($_POST["comments"])
-	// );
-
-	// $res = db_add_article($article);
-
-	// if (!$res) {
-	// 	printf('<p class = "bg-danger">%s</p>', 'Статья не была добавлена: ' . db_get_last_error());
-	// 	exit();
-	// }
-
-	// g_sf($_FILES['files'], db_get_insert_id() . '/article', 'article.zip');
-
-	// $article = db_get_article(db_get_insert_id());
-
-
-	// if (g_si($_POST["isToAuthor"])) {
-	// 	try {
-	// 		letter_toauthor_newarticle($article);
-	// 		printf('<p class = "bg-success">%s</p>', 'Письмо автору отправлено');
-	// 	} catch (Exception $e) {
-	// 		printf('<p class = "bg-danger">%s</p>', 'Ошибка отправления письма автору: ' . $e->getMessage());
-	// 	}
-	// }
-
-	// if (g_si($_POST["isToEditor"])) {
-	// 	request_experts(db_get_insert_id());
-	// }
-
-	// printf(db_get_insert_id());
-
-	// exit();
 }
 
 function request_experts($ID_Article)
@@ -96,77 +93,74 @@ function articles_request_experts()
 add_action('wp_ajax_articles_add_expert', 'articles_add_expert');
 function articles_add_expert()
 {
-	printf('<p class = "bg-danger">Functionality is locked in this demo-version</p>');
+	if ($_SERVER['REQUEST_METHOD'] == "POST") {
+		$ID_Article = g_si($_POST['ID_Article']);
+		$ID_Expert = g_si($_POST['ID_Expert']);
+
+		$article = db_get_article($ID_Article);
+		if ($article == "") {
+			printf('<p class = "bg-danger">%s</p>', "Статья #{$ID_Article} не найдена");
+			exit();
+		}
+
+		$expert = db_get_expert($ID_Expert);
+		if ($expert == "") {
+			printf('<p class = "bg-danger">%s</p>', "Рецензент #{$ID_Expert} не найден");
+			exit();
+		}
+
+		global $wpdb;
+		$hasThatExpert = $wpdb->get_results(
+			"SELECT r.ID_Review
+			FROM reviews r 
+			WHERE r.ID_Article = {$ID_Article} AND r.ID_Expert = {$ID_Expert};"
+		);
+
+		if (sizeof($hasThatExpert) > 0) {
+			printf('<p class = "bg-danger">%s</p>', "Рецензент #{$ID_Expert} уже назначен");
+			exit();
+		}
+
+		$expNo = $wpdb->get_results(
+			"SELECT COUNT(gr.ID_Review) as No
+			FROM
+			(SELECT r.ID_Review
+			FROM reviews r
+			WHERE r.ID_Article = {$ID_Article}
+			GROUP BY r.ID_Expert) gr;"
+		)[0]->No;
+
+		$review = array(
+			'ID_Article' => $ID_Article,
+			'ID_Expert' => $ID_Expert,
+			'RevNo'		=> ($expNo + 1) . '.1',
+			'ToExpDate' => date('Y-m-d')
+		);
+
+		$res = db_add_review($review);
+
+		if ($res) printf('<p class = "bg-success">%s</p>', 'Рецензент добавлен');
+		else {
+			printf('<p class = "bg-danger">%s</p>', 'Рецензент не был добавлен: ' . db_get_last_error());
+			exit();
+		}
+
+		$articlefile = g_lf($ID_Article . '/article')[0];
+		if ($articlefile !== null) {
+			$attachments = array(
+				'name' => array(basename($articlefile)),
+				'tmp_name' => array($articlefile)
+			);
+		}
+
+		try {
+			letter_toexpert_firstreview($article, $expert, (object)$review, $attachments);
+			printf('<p class = "bg-success">%s</p>', 'Письмо рецензенту отправлено');
+		} catch (Exception $e) {
+			printf('<p class = "bg-danger">%s</p>', 'Ошибка отправления письма рецензенту: ' . $e->getMessage());
+		}
+	}
 	exit();
-
-	// if ($_SERVER['REQUEST_METHOD'] == "POST") {
-	// 	$ID_Article = g_si($_POST['ID_Article']);
-	// 	$ID_Expert = g_si($_POST['ID_Expert']);
-
-	// 	$article = db_get_article($ID_Article);
-	// 	if ($article == "") {
-	// 		printf('<p class = "bg-danger">%s</p>', "Статья #{$ID_Article} не найдена");
-	// 		exit();
-	// 	}
-
-	// 	$expert = db_get_expert($ID_Expert);
-	// 	if ($expert == "") {
-	// 		printf('<p class = "bg-danger">%s</p>', "Рецензент #{$ID_Expert} не найден");
-	// 		exit();
-	// 	}
-
-	// 	global $wpdb;
-	// 	$hasThatExpert = $wpdb->get_results(
-	// 		"SELECT r.ID_Review
-	// 		FROM reviews r 
-	// 		WHERE r.ID_Article = {$ID_Article} AND r.ID_Expert = {$ID_Expert};"
-	// 	);
-
-	// 	if (sizeof($hasThatExpert) > 0) {
-	// 		printf('<p class = "bg-danger">%s</p>', "Рецензент #{$ID_Expert} уже назначен");
-	// 		exit();
-	// 	}
-
-	// 	$expNo = $wpdb->get_results(
-	// 		"SELECT COUNT(gr.ID_Review) as No
-	// 		FROM
-	// 		(SELECT r.ID_Review
-	// 		FROM reviews r
-	// 		WHERE r.ID_Article = {$ID_Article}
-	// 		GROUP BY r.ID_Expert) gr;"
-	// 	)[0]->No;
-
-	// 	$review = array(
-	// 		'ID_Article' => $ID_Article,
-	// 		'ID_Expert' => $ID_Expert,
-	// 		'RevNo'		=> ($expNo + 1) . '.1',
-	// 		'ToExpDate' => date('Y-m-d')
-	// 	);
-
-	// 	$res = db_add_review($review);
-
-	// 	if ($res) printf('<p class = "bg-success">%s</p>', 'Рецензент добавлен');
-	// 	else {
-	// 		printf('<p class = "bg-danger">%s</p>', 'Рецензент не был добавлен: ' . db_get_last_error());
-	// 		exit();
-	// 	}
-
-	// 	$articlefile = g_lf($ID_Article . '/article')[0];
-	// 	if ($articlefile !== null) {
-	// 		$attachments = array(
-	// 			'name' => array(basename($articlefile)),
-	// 			'tmp_name' => array($articlefile)
-	// 		);
-	// 	}
-
-	// 	try {
-	// 		letter_toexpert_firstreview($article, $expert, (object)$review, $attachments);
-	// 		printf('<p class = "bg-success">%s</p>', 'Письмо рецензенту отправлено');
-	// 	} catch (Exception $e) {
-	// 		printf('<p class = "bg-danger">%s</p>', 'Ошибка отправления письма рецензенту: ' . $e->getMessage());
-	// 	}
-	// }
-	// exit();
 }
 
 function articles_revapprove_inner($ID_Article)
@@ -428,18 +422,15 @@ function articles_remind_author()
 add_action('wp_ajax_articles_update_file', 'articles_update_file');
 function articles_update_file()
 {
-	printf('<p class = "bg-danger">Functionality is locked in this demo-version</p>');
+	if ($_SERVER['REQUEST_METHOD'] == "POST") {
+		$ID_Article = g_si($_POST['ID_Article']);
+
+		$files = $_FILES['files'];
+
+		g_sf($files, $ID_Article . '/article', 'article.zip');
+		printf('<p class = "bg-success">%s</p>', 'Файлы обновлены');
+	}
 	exit();
-
-	// if ($_SERVER['REQUEST_METHOD'] == "POST") {
-	// 	$ID_Article = g_si($_POST['ID_Article']);
-
-	// 	$files = $_FILES['files'];
-
-	// 	g_sf($files, $ID_Article . '/article', 'article.zip');
-	// 	printf('<p class = "bg-success">%s</p>', 'Файлы обновлены');
-	// }
-	// exit();
 }
 
 function articles_get_fileinfo($ID_Article)
