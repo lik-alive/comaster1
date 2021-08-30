@@ -1,4 +1,5 @@
 function onReadyScript(type) {
+  console.log(111);
   var table = $("#datatable").DataTable();
 
   $("#datatable tbody tr")
@@ -6,7 +7,7 @@ function onReadyScript(type) {
       var rowNo = table.row(this).index();
       if (rowNo != null) {
         var curId = table.cell(rowNo, 1).data();
-        window.location = "/COMaster/tables/" + type + "/edit?id=" + curId;
+        window.location = SITE_URL + "/tables/" + type + "/edit?id=" + curId;
       }
     })
     .hover(function () {

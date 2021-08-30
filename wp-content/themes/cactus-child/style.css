@@ -2761,7 +2761,7 @@ input[type="button"].cellbutton {
 
 /*Details in a table*/
 td.details-control {
-    background: url('/arch/comaster/resources/details_open.png') no-repeat center center;
+    background: url('/arch/comaster1/resources/details_open.png') no-repeat center center;
 	background-color: #FFFFFF;
     cursor: pointer;
 }
@@ -2769,7 +2769,7 @@ td.nodetails-control {
 	background-color: #FFFFFF;
 }
 tr.shown td.details-control {
-    background: url('/arch/comaster/resources/details_close.png') no-repeat center center;
+    background: url('/arch/comaster1/resources/details_close.png') no-repeat center center;
 	background-color: #FFFFFF;
 }
 
@@ -2799,26 +2799,26 @@ tr.shown td.details-control {
 
 /*File image*/
 input[type="button"].file {
-	background: url('/arch/comaster/resources/file-green.png') no-repeat center center;
+	background: url('/arch/comaster1/resources/file-green.png') no-repeat center center;
 	margin: 4px;
 	border: 0px;
 }
 
 input[type="button"].file:hover {
-	background: url('/arch/comaster/resources/file-red.png') no-repeat center center;
+	background: url('/arch/comaster1/resources/file-red.png') no-repeat center center;
 	border: 0px;
 }
 
 /*Edit icons*/
 input[type="button"].edit {
-	background: url('/arch/comaster/resources/edit-grey.png') no-repeat center center;
+	background: url('/arch/comaster1/resources/edit-grey.png') no-repeat center center;
 	background-size:  30px 30px;
 	margin: 4px;
 	border: 0px;
 }
 
 input[type="button"].edit:hover {
-	background: url('/arch/comaster/resources/edit.png') no-repeat center center;
+	background: url('/arch/comaster1/resources/edit.png') no-repeat center center;
 	background-size:  30px 30px;
 	border: 0px;
 }
