@@ -2,7 +2,10 @@
 /*
 		Template Name: Main Page
 	*/
-get_header(); ?>
+
+get_header();
+var_dump(
+ ?>
 
 <?php include 'tools/header_title.php'; ?>
 
