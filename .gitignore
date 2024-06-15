@@ -6,3 +6,5 @@
 wp-config.php
 files/*
 !files/templates
+_data
+.env

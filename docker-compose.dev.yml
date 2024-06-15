@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  server:
+    user: "0:0"
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: dev_com1_server
+    container_name: dev_com1_server
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_NAME: $DB_NAME
+      WORDPRESS_DB_USER: $DB_USER
+      WORDPRESS_DB_PASSWORD: $DB_PASS
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql
+    ports:
+      - 3000:8080
+
+  pma:
+    image: phpmyadmin:5.2.1
+    container_name: dev_com1_pma
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: $DB_USER
+      PMA_PASSWORD: $DB_PASS
+      UPLOAD_LIMIT: 300M
+    ports:
+      - 3080:80
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql/mysql-server:8.0
+    container_name: dev_com1_mysql
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASS
+      MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+    restart: unless-stopped
+    volumes:
+      - ./_data/db:/var/lib/mysql
+      - ./.config/db_schema.sql:/docker-entrypoint-initdb.d/schema.sql
