@@ -2,24 +2,19 @@ version: "3"
 
 services:
   server:
-    user: "0:0"
+    user: "$UID:$GID"
     build:
       context: .
       dockerfile: Dockerfile.dev
     image: dev_com1_server
     container_name: dev_com1_server
-    environment:
-      WORDPRESS_DB_HOST: mysql
-      WORDPRESS_DB_NAME: $DB_NAME
-      WORDPRESS_DB_USER: $DB_USER
-      WORDPRESS_DB_PASSWORD: $DB_PASS
     restart: unless-stopped
     volumes:
       - .:/var/www/html
     depends_on:
       - mysql
     ports:
-      - 3000:8080
+      - 3000:3000
 
   pma:
     image: phpmyadmin:5.2.1
