@@ -43,6 +43,7 @@ The service was deployed on the infrastructure of Image Processing Systems Insti
 - News section with a list of notable changes in the platform
 - CRUD for Papers, Experts, Reviews, Issues and Sections
 - Quick search
+- Integration with The BAT mailer
 - Role-base access:
   - Chief editor: general information
   - Secretary: all functionality
