@@ -23,14 +23,16 @@ The platform was deployed on the infrastructure of Image Processing Systems Inst
 ## Features
 
 ### Common
-- Client-Server: PHP v7.4 + WordPress v5.8.3 + Bootstrap v3.3.7
-- DB: MySQL v8
+- PHP v7.4
+- WordPress v5.8.3
+- Bootstrap v3.3.7
+- MySQL v8
 - Dockerized
 
 ### Functionality
 - Submission wizard with automatic parsing of paper metadata
 - Organizing peer-review process
-- Email notifications of all changes to authors and the section editor
+- Email notifications of all changes to authors and section editors
 - Automatic generation of review forms (in English and Russian)
 - Tracking the current status of papers
 - Submission statistics
