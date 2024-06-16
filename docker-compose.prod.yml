@@ -12,7 +12,6 @@ services:
       - 9010:80
 
   server:
-    user: "33:33"
     build:
       context: .
       dockerfile: Dockerfile.prod
@@ -20,7 +19,7 @@ services:
     container_name: prod_com1_server
     restart: always
     volumes:
-      - ./files:/var/www/html/files
+      - .:/var/www/html
     depends_on:
       - mysql
 
