@@ -9,7 +9,7 @@ wp-includes
 license.txt
 readme.html
 /*.php
-!wp-config-sample.php
+!wp-config-mysample.php
 wp-content/plugins/*
 !wp-content/plugins/aryo-activity-log
 !wp-content/plugins/baw-login-logout-menu
