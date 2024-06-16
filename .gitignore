@@ -20,7 +20,7 @@ wp-content/plugins/*
 wp-content/themes/*
 !wp-content/themes/cactus-child
 
-
+!.config/*
 wp-config.php
 files/*
 !files/templates
