@@ -84,12 +84,18 @@ docker exec -it dev_com1_server php init.php
 curl https://api.wordpress.org/secret-key/1.1/salt/
 ```
 
-4. Deploy
+4. Change ownership
+```sh
+sudo chown www-data:www-data .
+sudo chown www-data:www-data ./files
+```
+
+5. Deploy
 ```sh
 ./deploy.sh --prod
 ```
 
-5. Create admin user
+6. Create admin user
 ```sh
 docker exec -it prod_com1_server php init.php
 ```

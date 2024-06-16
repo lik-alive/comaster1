@@ -12,6 +12,7 @@ services:
       - 9010:80
 
   server:
+    user: "33:33"
     build:
       context: .
       dockerfile: Dockerfile.prod
