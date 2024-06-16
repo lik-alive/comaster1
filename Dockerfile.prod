@@ -4,5 +4,3 @@ WORKDIR /var/www/html
 
 # Add utils
 RUN apk update && apk add --no-cache nano bash curl
-
-COPY . .
